@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Recipes</title>
+{% endblock %}
+
+{% block body %}
+<a href="/"><h1>Recipes Online</h1></a>
+
+<form action="" method="POST">
+    <input id="title" type="text" name="title" placeholder="Title"><br>
+    <textarea id="description" name="description" rows="7" placeholder="Recipe description"></textarea><br>
+    <button id="addRecipe" type="submit" value="Add Recipe">Submit</button>
+</form>
+
+<h2>Submitted Recipes</h2>
+
+<div class="search-area">
+    <input type="search" id="search" name="search" class="search-box" placeholder="Search for a recipe!">
+</div>
+
+<div id="container">
+    <!-- Entries will be added here -->
+    {% for recipe in recipes %}
+        <div class="entry">
+            <h3>{{ recipe.title }}</h3>
+            <p>{{ recipe.description }}</p>
+            <a href="/like/{{recipe.id}}"><button id="likeBtn">{{ recipe.like }} Like</button></a>
+            <a href="/dislike/{{recipe.id}}"><button id="dislikeBtn">{{ recipe.dislike }} Dislike</button></a>
+            <a href="/delete/{{recipe.id}}"><button id="deleteBtn">Delete</button></a>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    var search = document.getElementById("search");
+
+    // Lets user enter their search term by pressing the enter button
+    search.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13 && search.value != "") {
+            window.location.assign("/search/" + search.value.toLowerCase());
+        }
+    })
+</script>
+{% endblock %}
